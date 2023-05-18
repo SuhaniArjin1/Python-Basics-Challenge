@@ -52,5 +52,5 @@ for change in DateNChange:
     if change[1] < min_value:
         min_value = change[1]
         min_row = change
-print("Greatest Increase in Profits:",max_row,"$")
-print("Greatest Decrease in Profits:",min_row,"$")
+print("Greatest Increase in Profits:",max_row)
+print("Greatest Decrease in Profits:",min_row)
