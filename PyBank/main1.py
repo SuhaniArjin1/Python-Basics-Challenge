@@ -18,7 +18,7 @@ with open (csvpath, encoding = 'UTF-8') as csvfile:
         NetAmount.append(row[1])#has all the gains and losses for each month
     #Find out length of the list for total number of months since each month is only mentioned once
     total_months = len(date)
-    print("Total Months:", total_months) 
+    
 #Since Gain stored as positive number an loss stored as negative, simply take the sum of the list to find net gain/loss
 #Average chnage is the change over each month over the total number of months -1 (exculding the first one)
 Net = 0
@@ -33,9 +33,8 @@ for Amount in NetAmount:
     #Set previous profit amount for next loop
     previousprofit = float(Amount)
 #Calculate average change
-averageChange = sum(MonthlyChange)/(total_months-1)
-print("Total: $",Net)
-print("Average Change $",averageChange)
+averageChange = round(sum(MonthlyChange)/(total_months-1),2)
+
 
 #zip date and monthly change and find greatest increase
 DateNChange = zip(date, MonthlyChange)
@@ -53,5 +52,13 @@ for change in DateNChange:
     if change[1] < min_value:
         min_value = change[1]
         min_row = change
-print("Greatest Increase in Profits:",max_row)
-print("Greatest Decrease in Profits:",min_row)
+
+output_path = os.path.join('PyBank','Analysis1','PyBank_Results.csv')
+with open(output_path, 'w') as file:
+    file.write(f"Financial Analysis\n")
+    file.write("-----------------------------\n")
+    file.write(f"Total Months: {total_months}\n")
+    file.write(f"Total: {Net}\n")
+    file.write(f"Average Change: ${averageChange}\n")
+    file.write(f"Greatest Increase in Profits : {max_row[0]} (${max_row[1]})\n")
+    file.write(f"Greatest Decrease in Profits: {min_row[0]} (${min_row[1]})\n")

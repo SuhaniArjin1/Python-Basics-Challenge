@@ -29,12 +29,12 @@ with open(csvpath, encoding= 'UTF-8') as csvfile:
             Votes_Diana.append(row[0])
         if row[2] == "Raymon Anthony Doane":
             Votes_Raymon.append(row[0])
-    print("Total Votes:",totalvotes)
+    
     Running_Candidates = distinct_inputs
-    print (Running_Candidates)
+    
 #Put vote counts for each candidate into a list in order
 Vote_count = [(len(Votes_Charles)), (len(Votes_Diana)),(len(Votes_Raymon))]
-print(Vote_count)
+
 def percent(x):
     return f"{round(((x/totalvotes)*100),3)}%"
 charles_Percent =(percent(len(Votes_Charles)))
