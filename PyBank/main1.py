@@ -45,6 +45,7 @@ max_value = 0
 #for finding min
 min_row = None
 min_value = 1862002
+#looping through for max and min
 for change in DateNChange:
     if change[1] > max_value:
         max_value = change[1]

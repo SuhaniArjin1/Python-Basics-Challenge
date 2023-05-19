@@ -15,12 +15,13 @@ with open(csvpath, encoding= 'UTF-8') as csvfile:
     csv_header = next(csvreader)
     #find total number of ballot ID's to find total number of votes
     totalvotes = 0
-    distinct_inputs = set()
+    distinct_inputs = list(set())
     for row in csvreader:
         #getting sum of votes
         totalvotes += 1
         #getting the unique inputs from column 3
-        distinct_inputs.add(row[2])
+        if row[2] not in distinct_inputs:
+            distinct_inputs.append(row[2])
     #Getting vote count for each candidate
         if row[2] == "Charles Casper Stockham":
             Votes_Charles.append(row[0])
@@ -41,8 +42,24 @@ Diana_Percent = (percent(len(Votes_Diana)))
 Raymon_Percent = (percent(len(Votes_Raymon)))
 #Put each candidates percent of votes into a list in order
 Percent_Vote = [charles_Percent, Diana_Percent, Raymon_Percent]
-#Put all the voting values into a dictionary
-Election_Outcome = {"Candidate": Running_Candidates,
-                    "Percent_of_Votes" : Percent_Vote,
-                    "Number_of_Votes": Vote_count}
-print(Election_Outcome)
+
+election_results = list(zip(Running_Candidates, Percent_Vote, Vote_count))
+#Finding Winner 
+max_row = None
+max_value = 0
+
+for result in election_results:
+    if result[2] > max_value:
+        max_value = result[2]
+        max_row = result
+
+output_path = os.path.join('PyPoll','Analysis2','PyPoll_Results.csv')
+with open(output_path, 'w') as file:
+    file.write(f"Election Results\n")
+    file.write("-----------------------------\n")
+    file.write(f"Total Votes: {totalvotes}\n")
+    file.write("-----------------------------\n")
+    for result in election_results:
+        file.write(f"{result[0]}: {result[1]} ({result[2]})\n")
+    file.write("-----------------------------\n")
+    file.write(f"Winner: {max_row[0]}")
